@@ -31,6 +31,7 @@ const theme = createTheme({
           backgroundColor: '#fff',
           borderRadius: 4,
           '& .MuiOutlinedInput-root': {
+            backgroundColor: '#fff',  // Ensure the background color of the input is white
             '& fieldset': {
               borderColor: '#333',
               borderWidth: 2,

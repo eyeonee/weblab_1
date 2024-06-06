@@ -21,12 +21,12 @@ function AboutPage() {
           <Button color="inherit" onClick={handleLogout} style={{ position: 'absolute', right: 16 }}>Logout</Button>
         </Toolbar>
       </AppBar>
-      <Paper style={{ padding: 16, background: 'linear-gradient(to right, #0288d1, #1f6635)' }}>
-        <Typography variant="h4" gutterBottom style={{ color: '#fff' }}>About</Typography>
-        <Typography variant="body1" style={{ color: '#fff' }}>
+      <Paper style={{ padding: 16, background: 'linear-gradient(to right, #0288d1, #1f6635)' }} data-testid="about-paper">
+        <Typography variant="h4" gutterBottom style={{ color: '#fff' }} data-testid="about-title">About</Typography>
+        <Typography variant="body1" style={{ color: '#fff' }} data-testid="about-description">
           This is a simple phone book application built with ReactJS and MaterialUI.
         </Typography>
-        <Typography variant="body1" style={{ marginTop: 16, color: '#fff' }}>
+        <Typography variant="body1" style={{ marginTop: 16, color: '#fff' }} data-testid="about-features">
           Features include:
           <ul>
             <li>User registration and login</li>

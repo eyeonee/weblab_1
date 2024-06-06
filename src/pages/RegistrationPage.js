@@ -21,9 +21,9 @@ function RegistrationPage() {
 
   return (
     <Container maxWidth="sm">
-      <Paper style={{ margin: '24px 0', padding: 16, background: 'linear-gradient(to right, #0288d1, #fbc02d)' }}>
-        <Typography variant="h4" gutterBottom style={{ color: '#fff' }}>Register</Typography>
-        <form onSubmit={handleRegister}>
+      <Paper style={{ margin: '24px 0', padding: 16, background: 'linear-gradient(to right, #0288d1, #fbc02d)' }} data-testid="register-paper">
+        <Typography variant="h4" gutterBottom style={{ color: '#fff' }} data-testid="register-title">Register</Typography>
+        <form onSubmit={handleRegister} data-testid="register-form">
           <TextField
             label="Name"
             variant="outlined"
@@ -31,6 +31,8 @@ function RegistrationPage() {
             margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            inputProps={{ 'data-testid': 'name-input' }}
           />
           <TextField
             label="Surname"
@@ -39,6 +41,8 @@ function RegistrationPage() {
             margin="normal"
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
+            placeholder="Surname"
+            inputProps={{ 'data-testid': 'surname-input' }}
           />
           <TextField
             label="Email"
@@ -47,6 +51,8 @@ function RegistrationPage() {
             margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            inputProps={{ 'data-testid': 'email-input' }}
           />
           <TextField
             label="Password"
@@ -56,6 +62,8 @@ function RegistrationPage() {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            inputProps={{ 'data-testid': 'password-input' }}
           />
           <TextField
             label="Phone Number"
@@ -64,6 +72,8 @@ function RegistrationPage() {
             margin="normal"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone Number"
+            inputProps={{ 'data-testid': 'phone-input' }}
           />
           <TextField
             label="Gender"
@@ -73,15 +83,18 @@ function RegistrationPage() {
             select
             value={gender}
             onChange={(e) => setGender(e.target.value)}
+            placeholder="Gender"
+            //inputProps={{ 'data-testid': 'gender-input' }}
+            data-testid = "gender-input" 
           >
             <MenuItem value="male">Male</MenuItem>
             <MenuItem value="female">Female</MenuItem>
           </TextField>
-          <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: 16 }}>
+          <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: 16 }} data-testid="register-button">
             Register
           </Button>
         </form>
-        <Button onClick={() => navigate('/')} variant="text" color="secondary" fullWidth style={{ marginTop: 16 }}>
+        <Button onClick={() => navigate('/')} variant="text" color="secondary" fullWidth style={{ marginTop: 16 }} data-testid="back-to-login-button">
           Back to Login
         </Button>
       </Paper>

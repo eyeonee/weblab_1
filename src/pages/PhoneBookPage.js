@@ -14,6 +14,7 @@ function PhoneBookPage() {
   const [surname, setSurname] = useState('');
   const [phone, setPhone] = useState('');
   const [editId, setEditId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const navigate = useNavigate();
 
@@ -51,7 +52,15 @@ function PhoneBookPage() {
     navigate('/');
   };
 
-  const groupedContacts = contacts.reduce((acc, contact) => {
+  const filteredContacts = contacts.filter(contact => {
+    return (
+      contact.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.surname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      contact.phone.includes(searchQuery)
+    );
+  });
+
+  const groupedContacts = filteredContacts.reduce((acc, contact) => {
     const firstLetter = contact.name[0].toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
@@ -63,19 +72,19 @@ function PhoneBookPage() {
   const sortedGroups = Object.keys(groupedContacts).sort();
 
   return (
-    <Container>
+    <Container data-testid="phonebook-container">
       <AppBar position="static" style={{ marginBottom: 16 }}>
         <Toolbar>
-          <Button color="inherit" onClick={() => navigate('/profile')}>Profile</Button>
-          <Button color="inherit" onClick={() => navigate('/about')}>About</Button>
-          <Button color="inherit" onClick={() => navigate('/phonebook')}>Phone Book</Button>
+          <Button color="inherit" onClick={() => navigate('/profile')} data-testid="profile-button">Profile</Button>
+          <Button color="inherit" onClick={() => navigate('/about')} data-testid="about-button">About</Button>
+          <Button color="inherit" onClick={() => navigate('/phonebook')} data-testid="phonebook-button">Phone Book</Button>
           <div style={{ flexGrow: 1 }}></div>
-          <Button color="inherit" onClick={handleLogout} style={{ position: 'absolute', right: 16 }}>Logout</Button>
+          <Button color="inherit" onClick={handleLogout} style={{ position: 'absolute', right: 16 }} data-testid="logout-button">Logout</Button>
         </Toolbar>
       </AppBar>
-      <Paper style={{ padding: 16, background: 'linear-gradient(to right, #0288d1, #1f6635)' }}>
-        <Typography variant="h4" gutterBottom style={{ color: '#fff' }}>Phone Book</Typography>
-        <form onSubmit={handleAddOrUpdateContact}>
+      <Paper style={{ padding: 16, background: 'linear-gradient(to right, #0288d1, #fbc02d)' }} data-testid="phonebook-paper">
+        <Typography variant="h4" gutterBottom style={{ color: '#fff' }} data-testid="phonebook-title">Phone Book</Typography>
+        <form onSubmit={handleAddOrUpdateContact} data-testid="contact-form">
           <TextField
             label="Name"
             variant="outlined"
@@ -83,6 +92,7 @@ function PhoneBookPage() {
             margin="normal"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            inputProps={{ 'data-testid': 'name-input' }}
           />
           <TextField
             label="Surname"
@@ -91,6 +101,7 @@ function PhoneBookPage() {
             margin="normal"
             value={surname}
             onChange={(e) => setSurname(e.target.value)}
+            inputProps={{ 'data-testid': 'surname-input' }}
           />
           <TextField
             label="Phone Number"
@@ -99,29 +110,40 @@ function PhoneBookPage() {
             margin="normal"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            inputProps={{ 'data-testid': 'phone-input' }}
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth>
+          <Button type="submit" variant="contained" color="primary" fullWidth data-testid="submit-button">
             {editId !== null ? 'Save' : 'Add'} Contact
           </Button>
         </form>
+        <TextField
+          label="Search"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ marginTop: 16 }}
+          inputProps={{ 'data-testid': 'search-input' }}
+        />
         <Divider style={{ margin: '16px 0' }} />
         {sortedGroups.map(letter => (
-          <div key={letter}>
+          <div key={letter} data-testid={`group-${letter}`}>
             <Typography variant="h6" style={{ color: '#fff' }}>{letter}</Typography>
             <List>
               {groupedContacts[letter].map(contact => (
-                <Paper key={contact.id} style={{ marginBottom: 8 }}>
+                <Paper key={contact.id} style={{ marginBottom: 8 }} data-testid={`contact-${contact.id}`}>
                   <ListItem secondaryAction={
                     <>
-                      <IconButton edge="end" aria-label="edit" onClick={() => handleEditContact(contact.id)}>
+                      <IconButton edge="end" aria-label="edit" onClick={() => handleEditContact(contact.id)} data-testid={`edit-button-${contact.id}`}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteContact(contact.id)}>
+                      <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteContact(contact.id)} data-testid={`delete-button-${contact.id}`}>
                         <DeleteIcon />
                       </IconButton>
                     </>
                   }>
-                    <ListItemText primary={`${contact.name} ${contact.surname}`} secondary={contact.phone} style={{ color: '#ffffff' }} />
+                    <ListItemText primary={`${contact.name} ${contact.surname}`} secondary={contact.phone} style={{ color: '#000000' }} />
                   </ListItem>
                 </Paper>
               ))}
